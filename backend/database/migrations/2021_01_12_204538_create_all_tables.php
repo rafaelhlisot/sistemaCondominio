@@ -62,7 +62,7 @@ class CreateAllTables extends Migration
             $table->integer('id_user');
         });
 
-        Schema::create('dics', function (Blueprint $table) {
+        Schema::create('docs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('fileurl');
