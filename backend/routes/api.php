@@ -52,7 +52,7 @@ Route::middleware('auth:api')->group(function() {
     Route::get('/unit/{id}', [UnitController::class, 'getInfo']);
 
     Route::post('/unit/{id}/addperson', [UnitController::class, 'addPerson']);
-    Route::post('/unit/{id}/addVehicle', [UnitController::class, 'addVehicle']);
+    Route::post('/unit/{id}/addvehicle', [UnitController::class, 'addVehicle']);
     Route::post('/unit/{id}/addpet', [UnitController::class, 'addPet']);
 
     Route::post('/unit/{id}/removeperson', [UnitController::class, 'removePerson']);
