@@ -12,5 +12,5 @@ class unitpet extends Model
     ];
 
     public $timestamps = false;
-    public $yable = 'unitpets';
+    public $table = 'unitpets';
 }

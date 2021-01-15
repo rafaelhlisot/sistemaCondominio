@@ -14,5 +14,5 @@ class unitpeople extends Model
     ];
 
     public $timestamps = false;
-    public $yable = 'unitpeoples';
+    public $table = 'unitpeoples';
 }
