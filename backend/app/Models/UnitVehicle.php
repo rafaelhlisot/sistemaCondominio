@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UnitVehicle extends Model
 {
+    use HasFactory;
+
     protected $hidden = [
         'id_unit'
     ];
