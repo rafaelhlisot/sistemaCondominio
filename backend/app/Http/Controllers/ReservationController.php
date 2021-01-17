@@ -186,16 +186,8 @@ class ReservationController extends Controller
         return $array;
     }
 
-    public function getTimes() {
+    public function getTimes(Request $request, $id) {
         $array = ['error' => ''];
-
-
-
-        return $array;
-    }
-
-    public function getMyReservation(Request $request, $id) {
-        $array = ['error' => '', 'list' => []];
 
         $validator = Validator::make($request->all(), [
             'date' => 'required|date_format:Y-m-d'
@@ -269,6 +261,48 @@ class ReservationController extends Controller
             }
         } else {
             $array['error'] = $validator->errors()->first();
+
+            return $array;
+        }
+
+        return $array;
+    }
+
+    public function getMyReservation(Request $request) {
+        $array = ['error' => '', 'list' => []];
+
+        $property = $request->input('property');
+        if ($property) {
+            $unit = Unit::find($property);
+
+            if ($unit) {
+                $reservations = Reservation::where('id_unit', $property)
+                    ->orderBy('reservation_date', 'DESC')
+                    ->get();
+
+                foreach ($reservations as $reservation) {
+                    $area = Area::find($reservation['id_area']);
+
+                    $daterev = date('d/m/Y H:i', strtotime($reservation['reservation_date']));
+                    $aftertime = date('H:i', strtotime('+1 hour', strtotime($reservation['reservation_date'])));
+
+                    $daterev .= ' à '.$aftertime;
+
+                    $array['list'][] = [
+                        'id' => $reservation['id'],
+                        'id_area' => $reservation['id_area'],
+                        'title' => $area['title'],
+                        'cover' => asset('storage/'.$area['cover']),
+                        'datereserved' => $daterev
+                    ];
+                }
+            } else {
+                $array['error'] = 'Propriedade inexistente';
+
+                return $array;
+            }
+        } else {
+            $array['error'] = 'Propriedade nescessária';
 
             return $array;
         }
