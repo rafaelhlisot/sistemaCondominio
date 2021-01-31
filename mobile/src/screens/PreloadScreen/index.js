@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import C from './style';
 
 import {useStateValue} from '../../contexts/StateContext';
-import api from '../../services/api';
+import Api from '../../services/api';
 
 export default () => {
     const navigation = useNavigation();
@@ -11,14 +11,14 @@ export default () => {
 
     useEffect(() => {
         const checkLogin = async () => {
-            let token = await api.getToken();
+            let token = await Api.getToken();
 
             if (token) {
-                let result = await api.validateToken();
+                let result = await Api.validateToken();
 
                 if (result.error === '') {
                     dispatch({
-                        type: setUser,
+                        type: 'setUser',
                         payload: {
                             user: result.user
                         }
@@ -50,9 +50,21 @@ export default () => {
 
         checkLogin();
     }, [])
+
+    const handleLogoutButton = async () => {
+        await Api.logout();
+
+        navigation.reset({
+            index: 1,
+            routes: [{name: 'LoginScreen'}]
+        });
+    }
+
     return (
         <C.container>
             <C.LoadingIcon color="#8863E6" size="large" />
+
+            <C.Button title="Sair" onPress={handleLogoutButton} />
         </C.container>
     );
 }

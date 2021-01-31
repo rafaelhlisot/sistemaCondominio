@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const baseUrl = "https://api.b7web.com.br/devcond/api";
-//const baseUrl = "http://127.0.0.1:8000/api";
+const baseUrl = 'https://api.b7web.com.br/devcond/api';
 
 const request = async (method, endpoint, params, token = null) => {
     method = method.toLowerCase();
@@ -46,6 +45,14 @@ export default {
     },
     login: async (cpf, password) => {
         let json = await request('post', '/auth/login', {cpf, password});
+
+        return json;
+    },
+    logout: async () => {
+        let token = await AsyncStorage.getItem('token');
+
+        let json = await request('post', '/auth/logout', {}, token);
+        await AsyncStorage.removeItem('token');
 
         return json;
     }

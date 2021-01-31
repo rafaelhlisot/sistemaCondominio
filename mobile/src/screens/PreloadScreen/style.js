@@ -9,5 +9,9 @@ export default {
 
     LoadingIcon: styled.ActivityIndicator`
     
+    `,
+
+    Button: styled.Button`
+        
     `
 };

@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import C from './style';
 
 import {useStateValue} from '../../contexts/StateContext';
-import api from '../../services/api';
+import Api from '../../services/api';
 
 export default () => {
     const navigation = useNavigation();
@@ -14,7 +14,7 @@ export default () => {
 
     const handleLoginButton = async () => {
         if (cpf && password) {
-            let result = await api.login(cpf, password);
+            let result = await Api.login(cpf, password);
 
             if (result.error === '') {
                 dispatch({
