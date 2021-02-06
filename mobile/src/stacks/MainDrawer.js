@@ -3,15 +3,37 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import { DrawerLayoutAndroid } from 'react-native-gesture-handler';
 
 import WallScreen from '../screens/WallScreen';
+import DocumentScreen from '../screens/DocumentScreen';
+import DrawerCustom from '../components/DrawerCustom';
+import BilletScreen from '../screens/BilletScreen';
 
 const Drawer = createDrawerNavigator();
 
 export default () => {
     return (
-        <Drawer.Navigator>
+        <Drawer.Navigator
+            drawerContent={(props) => <DrawerCustom {...props} />}
+            screenOptions={{
+                headerShown: true,
+                headerTitle: '',
+                headerStyle: {
+                    backgroundColor: '#F5F6FA',
+                    shadowOpacity: 0,
+                    elevation: 0
+                }
+            }}
+        >
             <Drawer.Screen
                 name="WallScreen"
                 component={WallScreen}
+            />
+            <Drawer.Screen
+                name="DocumentScreen"
+                component={DocumentScreen}
+            />
+            <Drawer.Screen
+                name="BilletScreen"
+                component={BilletScreen}
             />
         </Drawer.Navigator>
     );

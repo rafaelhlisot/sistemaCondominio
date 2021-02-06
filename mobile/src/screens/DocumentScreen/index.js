@@ -5,30 +5,30 @@ import C from './style';
 import {useStateValue} from '../../contexts/StateContext';
 import Api from '../../services/api';
 
-import WallItem from '../../components/WallItem';
+import DocItem from '../../components/DocItem';
 
 export default () => {
     const navigation = useNavigation();
     const [context, dispatch] = useStateValue();
     const [loading, setLoading] = useState(true);
-    const [wallList, setWallList] = useState([]);
+    const [docList, setDocList] = useState([]);
 
     useEffect(() => {
         navigation.setOptions({
-            headerTitle: 'Mural De Avisos'
+            headerTitle: 'Documentos Do Condominio'
         });
 
-        getWall()
+        getDocs()
     }, []);
 
-    const getWall = async () => {
-        setWallList([]);
+    const getDocs = async () => {
+        setDocList([]);
         setLoading(true);
-        const result = await Api.getWall();
+        const result = await Api.getDocs();
         setLoading(false);
 
         if (result.error === '') {
-            setWallList(result.list);
+            setDocList(result.list);
         } else {
             alert(result.error);
         }
@@ -37,16 +37,16 @@ export default () => {
 
     return (
         <C.Container>
-            {!loading && wallList.length === 0 &&
+            {!loading && docList.length === 0 &&
                 <C.NoListArea>
-                    <C.NoListText>Não há avisos.</C.NoListText>
+                    <C.NoListText>Não há documentos.</C.NoListText>
                 </C.NoListArea>
             }
             <C.List
-                data={wallList}
-                onRefresh={getWall}
+                data={docList}
+                onRefresh={getDocs}
                 refreshing={loading}
-                renderItem={({item}) => <WallItem data={item} />}
+                renderItem={({item}) => <DocItem data={item} />}
                 keyExtractor={(item) => item.id.toString()}
             />
         </C.Container>

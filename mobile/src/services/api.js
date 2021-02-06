@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const baseUrl = 'https://api.b7web.com.br/devcond/api';
+//const baseUrl = 'http://127.0.0.1:8000/api';
 
 const request = async (method, endpoint, params, token = null) => {
     method = method.toLowerCase();
@@ -61,6 +62,37 @@ export default {
         let json = request('post', '/auth/register', {
             name, email, cpf, password, password_confirm
         });
+
+        return json;
+    },
+    getWall: async () => {
+        let token = await AsyncStorage.getItem('token');
+
+        let json = await request('get', '/walls', {}, token);
+
+        return json;
+    },
+    likeWallPost: async (id) => {
+        let token = await AsyncStorage.getItem('token');
+
+        let json = await request('post', `/wall/${id}/like`, {}, token);
+
+        return json;
+    },
+    getDocs: async () => {
+        let token = await AsyncStorage.getItem('token');
+
+        let json = await request('get', '/docs', {}, token);
+
+        return json;
+    },
+    getBillets: async () => {
+        let token = await AsyncStorage.getItem('token');
+        let property = await AsyncStorage.getItem('property');
+
+        property = JSON.parse(property);
+
+        let json = await request('get', '/billets', {property: property.id}, token);
 
         return json;
     }
