@@ -95,5 +95,59 @@ export default {
         let json = await request('get', '/billets', {property: property.id}, token);
 
         return json;
+    },
+    getWarnings: async () => {
+        let token = await AsyncStorage.getItem('token');
+        let property = await AsyncStorage.getItem('property');
+
+        property = JSON.parse(property);
+
+        let json = await request('get', '/warnings', {property: property.id}, token);
+
+        return json;
+    },
+    addWarningFile: async (file) => {
+        let token = await AsyncStorage.getItem('token');
+        let formData = new FormData();
+
+        formData.append('photo', {
+            uri: file.uri,
+            type: file.type,
+            name: file.fileName
+        });
+
+        let req = await fetch(`${baseUrl}/warning/file`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData,
+        });
+
+        let json = await req.json();
+
+        return json;
+    },
+    addWarning: async (title, list) => {
+        let token = await AsyncStorage.getItem('token');
+        let property = await AsyncStorage.getItem('property');
+
+        property = JSON.parse(property);
+
+        let json = await request('post', '/warning', {
+            title,
+            list,
+            property: property.id
+        }, token);
+
+        return json;
+    },
+    getReservations: async () => {
+        let token = await AsyncStorage.getItem('token');
+
+        let json = await request('get', '/reservations', {}, token);
+
+        return json;
     }
 };
