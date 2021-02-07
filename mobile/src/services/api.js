@@ -149,5 +149,49 @@ export default {
         let json = await request('get', '/reservations', {}, token);
 
         return json;
+    },
+    getDisabledDates: async (id) => {
+        let token = await AsyncStorage.getItem('token');
+
+        let json = await request('get', `/reservation/${id}/disableddates`, {}, token);
+
+        return json;
+    },
+    getReservationTimes: async (id, date) => {
+        let token = await AsyncStorage.getItem('token');
+
+        let json = await request('get', `/reservation/${id}/times`, {date}, token);
+
+        return json;
+    },
+    setReservation: async (id, date, time) => {
+        let token = await AsyncStorage.getItem('token');
+        let property = await AsyncStorage.getItem('property');
+
+        property = JSON.parse(property);
+
+        let json = await request('post', `/reservation/${id}`, {
+            date,
+            time,
+            property: property.id
+        }, token);
+
+        return json;
+    },
+    getMyReservations: async () => {
+        let token = await AsyncStorage.getItem('token');
+        let property = await AsyncStorage.getItem('property');
+
+        property = JSON.parse(property);
+
+        let json = await request('get', '/myreservations', {property: property.id}, token);
+        
+        return json;
+    },
+    removeReservation: async (id) => {
+        let token = await AsyncStorage.getItem('token');
+        let json = await request('delete', `/myreservations/${id}`, {}, token);
+
+        return json;
     }
 };
