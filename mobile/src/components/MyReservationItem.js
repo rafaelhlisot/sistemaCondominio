@@ -44,7 +44,7 @@ const ButtonItem = styled.TouchableOpacity`
     margin: 20px
 `;
 
-export default ({data}) => {
+export default ({data, refreshFunction}) => {
 
     const handleRemoveButtom = () => {
         Alert.alert(

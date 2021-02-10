@@ -98,7 +98,7 @@ export default (props) => {
         {title: 'Documentos', icon: 'file-text', screen: 'DocumentScreen'},
         {title: 'Reservas', icon: 'calendar', screen: 'ReservationScreen'},
         {title: 'Livro de Ocorrências', icon: 'bug', screen: 'WarningScreen'},
-        {title: 'Achados e Perdidos', icon: 'search', screen: 'FoudAndLostScreen'},
+        {title: 'Achados e Perdidos', icon: 'search', screen: 'FoundAndLostScreen'},
         {title: 'Boletos', icon: 'wpforms', screen: 'BilletScreen'},
         {title: 'Perfil', icon: 'user', screen: 'ProfileScreen'}
     ];
