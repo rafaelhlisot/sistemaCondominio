@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Alert} from 'react-native';
-import api from '../services/api';
+import Api from '../services/api';
 
 const Box = styled.View`
     background-color: #FFF;
@@ -16,7 +16,7 @@ const Box = styled.View`
 
 const CoverImage = styled.Image`
     width: 80px;
-    height 80px;
+    height: 80px;
     border-radius: 15px;
 `;
 
@@ -58,7 +58,7 @@ export default ({data, refreshFunction}) => {
     }
 
     const removeReservation = async () => {
-        const result = await api.removeReservation(data.id);
+        const result = await Api.removeReservation(data.id);
 
         if (result.error === '') {
             refreshFunction();

@@ -69,11 +69,12 @@ export default ({data, showButton, refreshFunction}) => {
     const handleSetRecovered = async () => {
         const result = await Api.setRecovered(data.id);
 
-        if (result === '') {
+        if (result.error === '') {
             refreshFunction();
             alert('Pegue seu item na portaria');
         } else {
-            alert("teste");
+            alert(result.error);
+
         }
     }
 

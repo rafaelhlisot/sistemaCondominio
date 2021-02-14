@@ -3,8 +3,6 @@ import {Linking} from 'react-native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import Api from '../services/api';
-
 const Box = styled.TouchableOpacity`
     background-color: #FFF;
     border-width: 2px;
