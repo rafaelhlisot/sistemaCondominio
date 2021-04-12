@@ -28,13 +28,11 @@ export default () => {
   const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
-  const [modalTitleField, setModalTitleField] = useState('');
-  const [modalFileField, setModalFileField] = useState('');
   const [modalId, setModalId] = useState('');
   const [modalUnitList, setModalUnitList] = useState([]);
   const [modalAreaList, setModalAreaList] = useState([]);
-  const [modalUnitid, setModalUnitId] = useState(0);
-  const [modalAreaid, setModalAreaId] = useState(0);
+  const [modalUnitId, setModalUnitId] = useState(0);
+  const [modalAreaId, setModalAreaId] = useState(0);
   const [modalDateField, setModalDateField] = useState('');
 
   const fields = [
@@ -80,37 +78,31 @@ export default () => {
     setShowModal(false);
   }
 
-  const handleEditButton = (index) => {
+  const handleEditButton = (id) => {
+    let index = list.findIndex(v=>v.id===id);
     setModalId(list[index]['id']);
-    setModalTitleField(list[index]['title']);
-    setModalFileField(list[index]['body']);
+    setModalUnitId(list[index]['id_unit']);
+    setModalAreaId(list[index]['id_area']);
+    setModalDateField(list[index]['reservation_date']);
     setShowModal(true);
 
   }
 
   const handleModalSave = async () => {
-    if (modalTitleField) {
+    if (modalAreaId && modalUnitId && modalDateField) {
       setModalLoading(true);
       let result;
 
       let data = {
-        title: modalTitleField
+        id_unit: modalUnitId,
+        id_area: modalAreaId,
+        reservation_date: modalDateField
       };
 
       if (modalId === '') {
-        if (modalFileField) {
-          data.file = modalFileField;
-          result = await api.addDocument(data);
-        } else {
-          alert("Selecione o arquivo PDF");
-          setModalLoading(false);
-          return;
-        }
+        result = await api.addReservation(data);
       } else {
-        if (modalFileField) {
-          data.file = modalFileField;
-        }
-        result = await api.updateDocument(modalId, data);
+        result = await api.updateReservation(modalId, data);
       }
 
       setModalLoading(false);
@@ -128,14 +120,15 @@ export default () => {
 
   const handleNewButton = () => {
     setModalId('');
-    setModalTitleField('');
-    setModalFileField('');
+    setModalUnitId(modalUnitList[0]['id']);
+    setModalAreaId(modalAreaList[0]['id']);
+    setModalDateField('');
     setShowModal(true);
   }
 
   const handleRemoveButton = async (index) => {
     if (window.confirm('Tem certeza que deseja excluir este aviso?')) {
-      const result = await api.removeDocument(list[index]['id']);
+      const result = await api.removeReservation(list[index]['id']);
 
       if (result.error === '') {
         getList();
@@ -143,10 +136,6 @@ export default () => {
         alert(result.error);
       }
     }
-  }
-
-  const handleDownloadButton = (index) => {
-    window.open(list[index]['fileurl']);
   }
 
   return (
@@ -183,7 +172,7 @@ export default () => {
                   'actions': (item, index) => (
                     <td>
                       <CButtonGroup>
-                        <CButton color="info" onClick={() => handleEditButton(index)} disabled={modalUnitList.length === 0 || modalAreaList.length === 0}>Editar</CButton>
+                        <CButton color="info" onClick={() => handleEditButton(item.id)} disabled={modalUnitList.length === 0 || modalAreaList.length === 0}>Editar</CButton>
                         <CButton color="danger" onClick={() => handleRemoveButton(index)}>Excluir</CButton>
                       </CButtonGroup>
                     </td>
@@ -200,7 +189,7 @@ export default () => {
         <CModalBody closeButton>
           <CFormGroup>
             <CLabel htmlFor="modal-unit">Unidade</CLabel>
-            <CSelect id="modal-unit" custom onChange={e => setModalUnitId(e.target.value)}>
+            <CSelect id="modal-unit" custom onChange={e => setModalUnitId(e.target.value)} value={modalUnitId}>
               {modalUnitList.map((item, index) => (
                 <option key={index} value={item.id}>{item.name}</option>
               ))}
@@ -208,7 +197,7 @@ export default () => {
           </CFormGroup>
           <CFormGroup>
             <CLabel htmlFor="modal-area">Área</CLabel>
-            <CSelect id="modal-area" custom onChange={e => setModalAreaId(e.target.value)}>
+            <CSelect id="modal-area" custom onChange={e => setModalAreaId(e.target.value)} value={modalAreaId}>
               {modalAreaList.map((item, index) => (
                 <option key={index} value={item.id}>{item.title}</option>
               ))}
