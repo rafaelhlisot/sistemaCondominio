@@ -29,7 +29,7 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'OcorrÊncias',
+    name: 'Ocorrências',
     to: '/warnings',
     icon: 'cil-bell'
   },
