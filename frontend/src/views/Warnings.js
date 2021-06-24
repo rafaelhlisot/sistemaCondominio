@@ -6,8 +6,8 @@ import {
   CCol,
   CDataTable,
   CRow,
+  CSwitch
 } from '@coreui/react';
-import CIcon from '@coreui/icons-react';
 
 import useApi from '../services/api';
 
@@ -41,6 +41,14 @@ export default () => {
     }
   }
 
+  const handleSwitchClick = (e, item) => {
+
+  }
+
+  const showLightbox = (photos) => {
+
+  }
+
   return (
     <>
       <CRow>
@@ -62,7 +70,29 @@ export default () => {
                 pagination
                 itemsPerPage={5}
                 scopedSlots={{
-                  
+                  'photos': (item) => (
+                    <td>
+                      {item.photos.length > 0 &&
+                        <CButton color="success" onClick={() => showLightbox(item.photos)}>
+                          {item.photos.length} foto{item.photos.length !== 1 ? 's' : ''}
+                        </CButton>
+                      }
+                    </td>
+                  ),
+                  'datecreated': (item) => (
+                    <td>
+                      {item.datecreated_formated}
+                    </td>
+                  ),
+                  'status': (item) => (
+                    <td>
+                      <CSwitch
+                        color="success"
+                        checked={item.status === 'RESOLVED'}
+                        onChange={(e) => handleSwitchClick(e, item)}
+                      />
+                    </td>
+                  )
                 }}
               />
             </CCardBody>
