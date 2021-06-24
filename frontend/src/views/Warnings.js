@@ -45,8 +45,16 @@ export default () => {
     }
   }
 
-  const handleSwitchClick = (e, item) => {
+  const handleSwitchClick = async (item) => {
+    setLoading(true);
+    const result = await api.updateWarning(item.id);
+    setLoading(false);
 
+    if(result.error === '') {
+      getList();
+    } else {
+      alert(result.error);
+    }
   }
 
   const showLightbox = (photos) => {
@@ -94,7 +102,7 @@ export default () => {
                       <CSwitch
                         color="success"
                         checked={item.status === 'RESOLVED'}
-                        onChange={(e) => handleSwitchClick(e, item)}
+                        onChange={(e) => handleSwitchClick(item)}
                       />
                     </td>
                   )
