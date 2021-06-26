@@ -157,7 +157,7 @@ export default () => {
                       <CButtonGroup>
                         <CButton color="success" onClick={() => handleDownloadButton(item.id)}><CIcon name="cil-cloud-download" /></CButton>
                         <CButton color="info" onClick={() => handleEditButton(item.id)}>Editar</CButton>
-                        <CButton color="danger" onClick={() => handleRemoveButton(ite.id)}>Excluir</CButton>
+                        <CButton color="danger" onClick={() => handleRemoveButton(item.id)}>Excluir</CButton>
                       </CButtonGroup>
                     </td>
                   )
