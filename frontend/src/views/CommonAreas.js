@@ -15,8 +15,8 @@ import {
   CModalFooter,
   CModalHeader,
   CRow,
-  CInputCheckbox,
-  CSwitch
+  CSwitch,
+  CInputCheckbox
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 
@@ -30,7 +30,7 @@ export default () => {
   const [showModal, setShowModal] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
   const [modalId, setModalId] = useState('');
-  const [modalAllowedField, setModalAllowedField] = useState(1); 
+  const [modalAllowedField, setModalAllowedField] = useState(1);
   const [modalTitleField, setModalTitleField] = useState('');
   const [modalCoverField, setModalCoverField] = useState('');
   const [modalDaysField, setModalDaysField] = useState([]);
@@ -38,12 +38,12 @@ export default () => {
   const [modalEndTimeField, setModalEndTimeField] = useState('');
 
   const fields = [
-    {label: 'Permitida', key: 'allowed', sorter: false, filer: false},
-    {label: 'Capa', key: 'cover', sorter: false, filer: false},
+    {label: 'Ativa', key: 'allowed', sorter: false, filter: false},
+    {label: 'Capa', key: 'cover', sorter: false, filter: false},
     {label: 'Titulo', key: 'title'},
-    {label: 'Dias De Funcionamento', key: 'days'},
+    {label: 'Dias De Funcionamento', key: 'days', sorter: false},
     {label: 'Horário De Início', key: 'start_time', filter: false},
-    {label: 'Horário De Fim', key: 'end_time', filer: false},
+    {label: 'Horário De Fim', key: 'end_time', filter: false},
     {label: 'Ações', key: 'actions', _style: {width: '1px'}, sorter: false, filter: false}
   ];
 
@@ -155,11 +155,11 @@ export default () => {
     setModalAllowedField(1 - modalAllowedField);
   }
 
-  const toggleModalDays = (item, e) => {
+  const toggleModalDays = (item, event) => {
     let days = [...modalDaysField];
 
-    if (e.targed.checked === false) {
-      days = days.filter(day=>day!==item);
+    if (event.target.checked === false) {
+      days = days.filter(day => day !== item);
     } else {
       days.push(item);
     }
@@ -198,34 +198,37 @@ export default () => {
                       <CSwitch
                         color="success"
                         checked={item.allowed}
-                        onChange={handleSwitchClick(item)}
+                        onChange={() => handleSwitchClick(item)}
                       />
                     </td>
                   ),
                   'cover': (item) => (
                     <td>
-                      <img src={item.cover} width={100} />
+                      <img src={item.cover}  width={100} />
                     </td>
                   ),
                   'days': (item) => {
                     let daysWords = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
                     let days = item.days.split(',');
                     let dayString = [];
+
                     for (let i in days) {
-                      if(days[i] && daysWords[days[i]]) {
+                      if (days[i] && daysWords[days[i]]) {
                         dayString.push(daysWords[days[i]]);
                       }
                     }
+
                     return (
                       <td>
-                        {dayString.join(', ')}
+                        {dayString.join(', ')};
                       </td>
                     )
+
                   },
-                  'actions': (item) => (
+                  'actions': (item, index) => (
                     <td>
                       <CButtonGroup>
-                        <CButton color="info" onClick={() => handleEditButton(item.id)}>Editar</CButton>
+                        <CButton color="info" onClick={() => handleEditButton(item.id)} >Editar</CButton>
                         <CButton color="danger" onClick={() => handleRemoveButton(item.id)}>Excluir</CButton>
                       </CButtonGroup>
                     </td>
@@ -243,56 +246,126 @@ export default () => {
           <CFormGroup>
             <CLabel htmlFor="modal-allowed">Ativo</CLabel>
             <br/>
-            <CSwitch color="success" checked={modalAllowedField} onChange={handleModalSwitchClick} />
+            <CSwitch
+              color="success"
+              checked={modalAllowedField}
+              onChange={handleModalSwitchClick}
+            />
           </CFormGroup>
           <CFormGroup>
             <CLabel htmlFor="modal-title">Título</CLabel>
-            <CInput type="text" id="modal-titile" name="title" value={modalTitleField} onChange={(e) => setModalTitleField(e.target.value)} />
+            <CInput
+              type="text"
+              id="modal-title"
+              name="title"
+              value={modalTitleField}
+              onChange={(e) => setModalTitleField(e.target.value)}
+            />
           </CFormGroup>
           <CFormGroup>
             <CLabel htmlFor="modal-cover">Capa</CLabel>
-            <CInput type="file" id="modal-cover" name="cover" placeholder="Escolha uma imagem" onChange={(e) => setModalCoverField(e.target.files[0])} />
+            <CInput
+              type="file"
+              id="modal-cover"
+              name="cover"
+              placeholder="Escolha Uma Imagem"
+              onChange={(e) => setModalCoverField(e.target.files[0])}
+            />
           </CFormGroup>
           <CFormGroup>
             <CLabel htmlFor="modal-days">Dias De Funcionamento</CLabel>
             <div style={{marginLeft: 20}}>
               <div>
-                <CInputCheckbox id="modal-days-0" name="modal-days" value={0} checked={modalDaysField.includes('0')} onChange={(e) => toggleModalDays('0', e)} />
+                <CInputCheckbox
+                  id="modal-days-0"
+                  name="modal-days"
+                  value={0}
+                  checked={modalDaysField.includes('0')}
+                  onChane={(e) => toggleModalDays('0', e)}
+                />
                 <CLabel htmlFor="modal-days-0">Segunda-Feira</CLabel>
               </div>
               <div>
-                <CInputCheckbox id="modal-days-1" name="modal-days" value={1} checked={modalDaysField.includes('1')} onChange={(e) => toggleModalDays('1', e)} />
+                <CInputCheckbox
+                  id="modal-days-1"
+                  name="modal-days"
+                  value={1}
+                  checked={modalDaysField.includes('1')}
+                  onChane={(e) => toggleModalDays('1', e)}
+                />
                 <CLabel htmlFor="modal-days-1">Terça-Feira</CLabel>
               </div>
               <div>
-                <CInputCheckbox id="modal-days-2" name="modal-days" value={2} checked={modalDaysField.includes('2')} onChange={(e) => toggleModalDays('2', e)} />
+                <CInputCheckbox
+                  id="modal-days-2"
+                  name="modal-days"
+                  value={2}
+                  checked={modalDaysField.includes('2')}
+                  onChane={(e) => toggleModalDays('2', e)}
+                />
                 <CLabel htmlFor="modal-days-2">Quarta-Feira</CLabel>
               </div>
               <div>
-                <CInputCheckbox id="modal-days-3" name="modal-days" value={3} checked={modalDaysField.includes('3')} onChange={(e) => toggleModalDays('3', e)} />
+                <CInputCheckbox
+                  id="modal-days-3"
+                  name="modal-days"
+                  value={3}
+                  checked={modalDaysField.includes('3')}
+                  onChane={(e) => toggleModalDays('3', e)}
+                />
                 <CLabel htmlFor="modal-days-3">Quinta-Feira</CLabel>
               </div>
               <div>
-                <CInputCheckbox id="modal-days-4" name="modal-days" value={4} checked={modalDaysField.includes('4')} onChange={(e) => toggleModalDays('4', e)} />
+                <CInputCheckbox
+                  id="modal-days-4"
+                  name="modal-days"
+                  value={4}
+                  checked={modalDaysField.includes('4')}
+                  onChane={(e) => toggleModalDays('4', e)}
+                />
                 <CLabel htmlFor="modal-days-4">Sexta-Feira</CLabel>
               </div>
               <div>
-                <CInputCheckbox id="modal-days-5" name="modal-days" value={5} checked={modalDaysField.includes('5')} onChange={(e) => toggleModalDays('5', e)} />
+                <CInputCheckbox
+                  id="modal-days-5"
+                  name="modal-days"
+                  value={5}
+                  checked={modalDaysField.includes('5')}
+                  onChane={(e) => toggleModalDays('5', e)}
+                />
                 <CLabel htmlFor="modal-days-5">Sábado</CLabel>
               </div>
               <div>
-                <CInputCheckbox id="modal-days-6" name="modal-days" value={6} checked={modalDaysField.includes('6')} onChange={(e) => toggleModalDays('6', e)} />
-                <CLabel htmlFor="modal-days-6">Domingo</CLabel>
+                <CInputCheckbox
+                  id="modal-days-6"
+                  name="modal-days"
+                  value={6}
+                  checked={modalDaysField.includes('6')}
+                  onChane={(e) => toggleModalDays('6', e)}
+                />
+                <CLabel htmlFor="modal-days-">Domingo</CLabel>
               </div>
             </div>
           </CFormGroup>
           <CFormGroup>
-            <CLabel htmlFor="modal-start-time">Horário De Início</CLabel>
-            <CInput type="time" id="modal-start-time" name="start_time" value={modalStartTimeField} onChange={(e) => setModalStartTimeField(e.target.value)} />
+            <CLabel htmlFor="modal-start-time">Horario De Início</CLabel>
+            <CInput
+              type="time"
+              id="modal-start-time"
+              name="start_time"
+              value={modalStartTimeField}
+              onChange={(e) => setModalStartTimeField(e.target.value)}
+            />
           </CFormGroup>
           <CFormGroup>
-            <CLabel htmlFor="modal-end-time">Horário De Fim</CLabel>
-            <CInput type="time" id="modal-end-time" name="end_time" value={modalEndTimeField} onChange={(e) => setModalEndTimeField(e.target.value)} />
+            <CLabel htmlFor="modal-end-time">Horario De Fim</CLabel>
+            <CInput
+              type="time"
+              id="modal-end-time"
+              name="end_time"
+              value={modalEndTimeField}
+              onChange={(e) => setModalEndTimeField(e.target.value)}
+            />
           </CFormGroup>
         </CModalBody>
         <CModalFooter>

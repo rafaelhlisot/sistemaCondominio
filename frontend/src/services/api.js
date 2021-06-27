@@ -100,7 +100,7 @@ export default () => {
         },
         body: formData
       });
-      let json = req.json();
+      let json = await req.json();
       return json;
     },
     updateDocument: async (id, data) => {
@@ -117,7 +117,7 @@ export default () => {
         },
         body: formData
       });
-      let json = req.json();
+      let json =  await req.json();
       return json;
     },
     removeDocument: async (id) => {
@@ -229,7 +229,7 @@ export default () => {
         },
         body: formData
       });
-      let json = req.json();
+      let json = await req.json();
       return json;
     },
     updateArea: async (id, data) => {
@@ -245,7 +245,7 @@ export default () => {
         },
         body: formData
       });
-      let json = req.json();
+      let json = await req.json();
       return json;
     },
     updateAreaAllowed: async (id) => {
