@@ -96,28 +96,35 @@ export default () => {
   const handleEditButton = (id) => {
     let index = list.findIndex(v=>v.id===id);
     setModalId(list[index]['id']);
-    setModalUnitId(list[index]['id_unit']);
-    setModalAreaId(list[index]['id_area']);
-    setModalDateField(list[index]['reservation_date']);
+    setModalNameField(list[index]['name']);
+    setModalOwnerList([]);
+    setModalOwnerSearchField('');
+    if (list[index]['name_owner']) {
+      setModalOwnerField({
+        name: list[index]['name_owner'],
+        id: list[index]['id_owner']
+      });
+    } else {
+      setModalOwnerField(null);
+    }
     setShowModal(true);
 
   }
 
   const handleModalSave = async () => {
-    if (modalAreaId && modalUnitId && modalDateField) {
+    if (modalNameField) {
       setModalLoading(true);
       let result;
 
       let data = {
-        id_unit: modalUnitId,
-        id_area: modalAreaId,
-        reservation_date: modalDateField
+        name: modalNameField,
+        id_owner: modalOwnerField.id
       };
 
       if (modalId === '') {
-        result = await api.addReservation(data);
+        result = await api.addUnit(data);
       } else {
-        result = await api.updateReservation(modalId, data);
+        result = await api.updateUnit(modalId, data);
       }
 
       setModalLoading(false);
@@ -135,13 +142,16 @@ export default () => {
 
   const handleNewButton = () => {
     setModalId('');
-    
+    setModalNameField('');
+    setModalOwnerField(null);
+    setModalOwnerList([]);
+    setModalOwnerSearchField('');
     setShowModal(true);
   }
 
   const handleRemoveButton = async (id) => {
     if (window.confirm('Tem certeza que deseja excluir este aviso?')) {
-      const result = await api.removeReservation(id);
+      const result = await api.removeUnit(id);
 
       if (result.error === '') {
         getList();
@@ -182,9 +192,10 @@ export default () => {
                       {item.name_owner ?? '-'}
                     </td>
                   ), 
-                  'actions': (item, index) => (
+                  'actions': (item) => (
                     <td>
                       <CButtonGroup>
+                        <CButton color="success" onClick={null}>Detalhes</CButton>
                         <CButton color="info" onClick={() => handleEditButton(item.id)}>Editar</CButton>
                         <CButton color="danger" onClick={() => handleRemoveButton(item.id)}>Excluir</CButton>
                       </CButtonGroup>
