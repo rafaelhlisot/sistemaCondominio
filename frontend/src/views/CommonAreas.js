@@ -281,7 +281,7 @@ export default () => {
                   name="modal-days"
                   value={0}
                   checked={modalDaysField.includes('0')}
-                  onChane={(e) => toggleModalDays('0', e)}
+                  onChange={(e) => toggleModalDays('0', e)}
                 />
                 <CLabel htmlFor="modal-days-0">Segunda-Feira</CLabel>
               </div>
@@ -291,7 +291,7 @@ export default () => {
                   name="modal-days"
                   value={1}
                   checked={modalDaysField.includes('1')}
-                  onChane={(e) => toggleModalDays('1', e)}
+                  onChange={(e) => toggleModalDays('1', e)}
                 />
                 <CLabel htmlFor="modal-days-1">Terça-Feira</CLabel>
               </div>
@@ -301,7 +301,7 @@ export default () => {
                   name="modal-days"
                   value={2}
                   checked={modalDaysField.includes('2')}
-                  onChane={(e) => toggleModalDays('2', e)}
+                  onChange={(e) => toggleModalDays('2', e)}
                 />
                 <CLabel htmlFor="modal-days-2">Quarta-Feira</CLabel>
               </div>
@@ -311,7 +311,7 @@ export default () => {
                   name="modal-days"
                   value={3}
                   checked={modalDaysField.includes('3')}
-                  onChane={(e) => toggleModalDays('3', e)}
+                  onChange={(e) => toggleModalDays('3', e)}
                 />
                 <CLabel htmlFor="modal-days-3">Quinta-Feira</CLabel>
               </div>
@@ -321,7 +321,7 @@ export default () => {
                   name="modal-days"
                   value={4}
                   checked={modalDaysField.includes('4')}
-                  onChane={(e) => toggleModalDays('4', e)}
+                  onChange={(e) => toggleModalDays('4', e)}
                 />
                 <CLabel htmlFor="modal-days-4">Sexta-Feira</CLabel>
               </div>
@@ -331,7 +331,7 @@ export default () => {
                   name="modal-days"
                   value={5}
                   checked={modalDaysField.includes('5')}
-                  onChane={(e) => toggleModalDays('5', e)}
+                  onChange={(e) => toggleModalDays('5', e)}
                 />
                 <CLabel htmlFor="modal-days-5">Sábado</CLabel>
               </div>
@@ -341,7 +341,7 @@ export default () => {
                   name="modal-days"
                   value={6}
                   checked={modalDaysField.includes('6')}
-                  onChane={(e) => toggleModalDays('6', e)}
+                  onChange={(e) => toggleModalDays('6', e)}
                 />
                 <CLabel htmlFor="modal-days-">Domingo</CLabel>
               </div>
