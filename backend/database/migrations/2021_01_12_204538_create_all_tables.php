@@ -13,12 +13,17 @@ class CreateAllTables extends Migration
      */
     public function up()
     {
+        Schema::create('condoms', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+        });
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('cpf')->unique();
             $table->string('password');
+            $table->foreignId('condom_id')->constrained('condoms');
         });
 
         Schema::create('units', function (Blueprint $table) {
